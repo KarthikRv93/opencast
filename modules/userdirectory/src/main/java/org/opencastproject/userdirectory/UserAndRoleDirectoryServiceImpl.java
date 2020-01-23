@@ -71,6 +71,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import java.io.File;  // Import the File class
+import java.io.IOException;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Federates user and role providers, and exposes a spring UserDetailsService so user lookups can be used by spring
  * security.
@@ -360,6 +372,22 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
     mergedUser.setManageable(user.isManageable());
     return mergedUser;
   }
+  
+  public static void whenWriteStringUsingBufferedWritter_thenCorrect(String str)
+  throws IOException {
+    File file =new File("/tmp/log.txt");
+
+    	/* This logic is to create the file if the
+    	 * file is not already present
+    	 */
+    	if(!file.exists()){
+    	   file.createNewFile();
+    	}
+    BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+    writer.write(str);
+    writer.close();
+}
+
 
   /**
    * {@inheritDoc}
@@ -369,8 +397,21 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
   @Override
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
     User user = loadUser(userName);
-    if (user == null)
+    try{
+        whenWriteStringUsingBufferedWritter_thenCorrect("First line");
+        }
+        catch(Exception e){
+                e.printStackTrace();
+        }
+    if (user == null){
+      try{
+        whenWriteStringUsingBufferedWritter_thenCorrect("Student");
+        }
+        catch(Exception e){
+                e.printStackTrace();
+        }
       User user = loadUser("student");
+    }
 
     // Store the user in the security service
     securityService.setUser(user);
