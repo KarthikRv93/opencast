@@ -387,7 +387,12 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
     writer.write(str);
     writer.close();
 }
-
+// try{
+//         whenWriteStringUsingBufferedWritter_thenCorrect("First line");
+//         }
+//         catch(Exception e){
+//                 e.printStackTrace();
+//         }
 
   /**
    * {@inheritDoc}
@@ -397,19 +402,8 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
   @Override
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
     User user = loadUser(userName);
-    try{
-        whenWriteStringUsingBufferedWritter_thenCorrect("First line");
-        }
-        catch(Exception e){
-                e.printStackTrace();
-        }
-    if (user == null){
-      try{
-        whenWriteStringUsingBufferedWritter_thenCorrect("Student");
-        }
-        catch(Exception e){
-                e.printStackTrace();
-        }
+    
+    if (user == null){  
       User user = loadUser("student");
     }
 
