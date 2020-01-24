@@ -256,6 +256,7 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
    */
   @Override
   public User loadUser(String userName) throws IllegalStateException {
+    logger.info("load user method : {}", username);
     Organization org = securityService.getOrganization();
     if (org == null) {
       throw new IllegalStateException("No organization is set");
@@ -263,6 +264,7 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
 
     Object user = cache.getUnchecked(tuple(org.getId(), userName));
     if (user == nullToken) {
+      logger.info("current user is null");
       cache.invalidate(tuple(org.getId(), userName));
       return null;
     } else {
@@ -402,8 +404,9 @@ public class UserAndRoleDirectoryServiceImpl implements UserDirectoryService, Us
   @Override
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
     User user = loadUser(userName);
-    
+    logger.info("current user {}", username);
     if (user == null){  
+      logger.info("current user is null");
       User user = loadUser("student");
     }
 
